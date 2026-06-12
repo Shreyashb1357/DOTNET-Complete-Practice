@@ -1,0 +1,39 @@
+    1  cd Advanced/Microservices/GRPCTest/ServerApp/
+    2  code .
+    3  ls
+    4  dotnet build
+    5  code .
+    6  vi ../ContractLib/order_manager.proto 
+    7  cd ..
+    8  mkdir DemoApp
+    9  cd DemoApp/
+   10  cp ../ContractLib/order_manager.proto 
+   11  cp ../ContractLib/order_manager.proto .
+   12  ls
+   13  python -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I . order_manager.proto 
+   14  python3 -m grpc_tools.protoc --python_out=. --grpc_python_out=. -I . order_manager.proto 
+   15  ls
+   16  wget -q iitdac.met.edu/shared/python/Program.py
+   17  ls
+   18  vi Program.py 
+   19  python3 Program.py CU201
+   20  python3 Program.py CU204
+   21  python3 Program.py CU204 202 20
+   22  python3 Program.py CU204
+   23  vi Program.py 
+   24  cd ../..
+   25  mkdir RESTTest
+   26  cd RESTTest/
+   27  ls
+   28  dotnet new web -n ServerApp
+   29  cd ServerApp/
+   30  dotnet add reference ../../GRPCTest/ContractLib/
+   31  dotnet add package Grpc.Net.ClientFactory
+   32  dotnet build
+   33  code .
+   34  vi ../../GRPCTest/ContractLib/order_manager.proto 
+   35  dotnet run
+   36  ls
+   37  cd ../../../
+   38  ls
+   39  history > cmd03-11-25morning.txt

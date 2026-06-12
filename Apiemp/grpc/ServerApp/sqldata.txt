@@ -1,0 +1,15 @@
+CREATE TABLE Employees (
+    EmpId INT PRIMARY KEY,
+    EmpName VARCHAR(100) NOT NULL,
+    Age INT,
+    Salary DOUBLE
+);
+
+================================
+
+INSERT INTO Employees (EmpId, EmpName, Age, Salary) VALUES
+(101, 'Rahul Sharma', 28, 45000.50),
+(102, 'Prathamesh Patil', 32, 52000.00),
+(103, 'Amit Singh', 25, 38000.75),
+(104, 'Ram Desai', 29, 60000.00),
+(105, 'Suresh Kumar', 40, 70000.25);

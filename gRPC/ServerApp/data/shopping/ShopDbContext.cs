@@ -1,0 +1,24 @@
+using Microsoft.EntityFrameworkCore;
+using ServerApp.data.shopping;
+
+namespace ServerApp.data.shopping;
+
+public class ShopDbContext(DbContextOtions options) : ShopDbContext(options)
+{
+    public DbSet<Orders> Order {get;set;}
+    public DbSet<Counter> Counters {get; set;}
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Oders>().ToTable("OrderDetail").HasKey(nameof(Orders.OrderNo));
+    } 
+    
+
+
+    //   protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //     modelBuilder.Entity<Order>()
+    //         .ToTable("OrderDetail")
+    //         .HasKey(nameof(Order.OrderNo));
+    // }
+}

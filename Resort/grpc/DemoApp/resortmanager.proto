@@ -1,0 +1,153 @@
+syntax = "proto3";
+
+package hotel;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service ResortManager {
+  rpc GetAllDept(google.protobuf.Empty) returns (DeptList);
+  rpc GetRoom(google.protobuf.Empty) returns (RoomList);
+  rpc GetCust(google.protobuf.Empty) returns (CustList);
+  rpc GetFoodCategory(google.protobuf.Empty) returns (FoodCatList);
+  rpc GetFoodMenu(google.protobuf.Empty) returns (MenuList);
+  rpc GetOrders(google.protobuf.Empty) returns (OrderList);
+  rpc GetBooking(google.protobuf.Empty) returns (BookingList);
+}
+
+service ReceptionManager {
+  rpc AddCust(Customer) returns (AddStatus);
+  rpc AddFoodOrder(FoodOrder) returns (ConfirmationCode);
+  rpc RoomBook(BookDetail) returns (BookStatus);
+}
+
+service CustomerMenu {
+  rpc GetFoodCategory(google.protobuf.Empty) returns (FoodCatList);
+  rpc GetFoodMenu(google.protobuf.Empty) returns (MenuList);
+  rpc AddFoodOrder(FoodOrder) returns (ConfirmationCode);
+  rpc GetRoom(google.protobuf.Empty) returns (RoomList);
+  rpc RoomBook(BookDetail) returns (BookStatus);
+}
+
+
+
+message Department {
+  int32 deptId = 1;
+  string deptName = 2;
+  string description = 3;
+}
+
+message DeptList {
+  repeated Department departments = 1;
+}
+
+
+enum RoomStatus {
+  AVAILABLE = 0;
+  OCCUPIED = 1;
+  MAINTENANCE = 2;
+}
+
+message Room {
+  int32 roomId = 1;
+  int32 roomNumber = 2;
+  int32 roomType = 3;
+  double pricePerNight = 4;
+  RoomStatus status = 5;
+  int32 deptId = 6;
+}
+
+message RoomList {
+  repeated Room rooms = 1;
+}
+
+
+message Customer {
+  int32 custId = 1;
+  string custName = 2;
+  string phone = 3;
+  string email = 4;
+  string address = 5;
+}
+
+message CustList {
+  repeated Customer customers = 1;
+}
+
+
+message FoodCategory {
+  int32 categoryId = 1;
+  string categoryName = 2;
+}
+
+message FoodCatList {
+  repeated FoodCategory categories = 1;
+}
+
+
+message FoodMenu {
+  int32 foodId = 1;
+  string foodName = 2;
+  double price = 3;
+  int32 categoryId = 4;
+}
+
+message MenuList {
+  repeated FoodMenu menu = 1;
+}
+
+
+message FoodOrder {
+  int32 custId = 1;
+  int32 foodId = 2;
+  int32 quantity = 3;
+  double totalPrice = 4;
+}
+
+message Order {
+  int32 orderId = 1;
+  int32 custId = 2;
+  int32 foodId = 3;
+  int32 quantity = 4;
+  double totalPrice = 5;
+  google.protobuf.Timestamp orderDate = 6;
+}
+
+message OrderList {
+  repeated Order orders = 1;
+}
+
+
+message BookDetail {
+  int32 custId = 1;
+  int32 roomId = 2;
+  google.protobuf.Timestamp checkIn = 4;
+  google.protobuf.Timestamp checkOut = 5;
+}
+
+message Booking {
+  int32 bookingId = 1;
+  int32 custId = 2;
+  int32 roomId = 3;
+  google.protobuf.Timestamp checkIn = 4;
+  google.protobuf.Timestamp checkOut = 5;
+}
+
+message BookingList {
+  repeated Booking bookings = 1;
+}
+
+
+
+message AddStatus {
+  string confirmCode = 1;
+}
+
+message ConfirmationCode {
+  string confirmCode = 1;
+}
+
+message BookStatus {
+  string confirmCode = 1;
+}

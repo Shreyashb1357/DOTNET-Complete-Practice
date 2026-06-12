@@ -1,0 +1,88 @@
+﻿@page
+@model MyApp.Namespace.ChatModel
+
+@{
+    var login = HttpContext.Request.Query["login"];
+}
+
+<h2>Chat</h2>
+
+<div style="display:flex; height:600px; border:1px solid #ccc;">
+
+    <!-- Left Side: User List -->
+    <div style="width:250px; border-right:1px solid #ccc; padding:10px; overflow-y:auto;">
+        <h3>Users (Login = @login)</h3>
+
+        <ul style="list-style:none; padding:0;">
+            @foreach (var u in Model.Users)
+            {
+                <li style="padding:8px; border-bottom:1px solid #eee;">
+                    <a href="/Chat?login=@login&userId=@u.UserId">
+                        <strong>@u.DisplayName</strong><br />
+                        <span style="font-size:12px; color:gray;">@u.StatusMessage</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <!-- Right Side -->
+    <div style="flex:1; padding:20px; display:flex; flex-direction:column;">
+
+        @if (string.IsNullOrEmpty(Model.SelectedUserId))
+        {
+            <h3>Select a user to start chat</h3>
+        }
+        else
+        {
+            <h3>Chat with @Model.SelectedUserId</h3>
+
+            <!-- Messages -->
+            <div id="chatMessages" style="flex:1; overflow-y:auto; border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                @foreach (var m in Model.Messages)
+                {
+                    <div style="margin-bottom:10px;">
+                        <strong>@m.SenderId:</strong>
+                        <div>@m.MessageText</div>
+                        <span style="font-size:12px; color:gray;">
+                            @m.SentAt.ToDateTime().ToString("HH:mm")
+                        </span>
+                    </div>
+                }
+            </div>
+
+            <!-- Send Form -->
+            <form method="post" asp-page-handler="Send" style="display:flex; gap:5px;">
+                <input type="hidden" name="login" value="@login" />
+                <input type="hidden" name="userId" value="@Model.SelectedUserId" />
+                <input type="hidden" name="chatRoomId" value="@Model.ChatRoomId" />
+
+                <input type="text" name="messageText" placeholder="Type a message..."
+                       style="flex:1; padding:8px;" />
+                <button type="submit" style="padding:8px 15px;">Send</button>
+            </form>
+        }
+    </div>
+
+</div>
+
+<script>
+    const userId = "@Model.SelectedUserId";
+    const chatRoomId = "@Model.ChatRoomId";
+    const login = "@login";   // IMPORTANT
+
+    async function refreshMessages() {
+        if (!userId || !chatRoomId) return;
+
+        const response = await fetch(`/Chat?handler=Refresh&login=${login}&userId=${userId}`);
+        const html = await response.text();
+
+        document.getElementById("chatMessages").innerHTML = html;
+
+        // Auto-scroll
+        const box = document.getElementById("chatMessages");
+        box.scrollTop = box.scrollHeight;
+    }
+
+    setInterval(refreshMessages, 2000);
+</script>

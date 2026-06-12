@@ -1,0 +1,208 @@
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /* Create database Resort;
+
+
+
+———————————————————————————*/
+
+CREATE TABLE departments (
+    department_id INT AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL,
+    description VARCHAR(255)
+);
+
+
+
+
+/*————————————————————————— */
+
+
+
+CREATE TABLE rooms (
+    room_id INT AUTO_INCREMENT PRIMARY KEY,
+    room_number VARCHAR(10) UNIQUE NOT NULL,
+    room_type VARCHAR(50),
+    price_per_night DECIMAL(10,2),
+    status ENUM('Available', 'Occupied', 'Maintenance') DEFAULT 'Available',
+    department_id INT,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+
+
+/*————————————————————————*/
+
+
+
+
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    phone VARCHAR(15),
+    email VARCHAR(100),
+    address TEXT
+);
+
+
+
+
+/* —————————————————————————— */
+
+
+
+
+CREATE TABLE food_category (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL
+);
+
+
+/* ————————————————————————— */
+
+
+
+CREATE TABLE food_menu (
+    food_id INT AUTO_INCREMENT PRIMARY KEY,
+    food_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    category_id INT,
+    FOREIGN KEY (category_id) REFERENCES food_category(category_id)
+);
+
+
+
+/* ——————————————————————— */
+
+
+
+
+CREATE TABLE food_orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    food_id INT,
+    quantity INT NOT NULL,
+    total_price DECIMAL(10,2),
+    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY (food_id) REFERENCES food_menu(food_id)
+);
+
+
+
+
+
+
+/* ———————————————————————*/
+
+
+
+
+CREATE TABLE room_booking (
+    booking_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    room_id INT,
+    check_in DATE,
+    check_out DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+);
+
+
+
+/* ——————————————————————————
+
+============================================
+
+Data for table 
+
+===========================================
+
+
+
+——————————————————————— */
+
+
+INSERT INTO departments (department_name, description) VALUES
+('Reception', 'Handles customer check-in and check-out'),
+('Housekeeping', 'Maintains room cleanliness'),
+('Kitchen', 'Prepares food and beverages'),
+('Maintenance', 'Handles repairs and maintenance');
+
+
+/* ——————————————————————————— */
+
+
+
+INSERT INTO customers (customer_name, phone, email, address) VALUES
+('Amit Sharma', '9876543210', 'amit@gmail.com', 'Pune'),
+('Neha Patil', '9123456780', 'neha@gmail.com', 'Mumbai'),
+('Rahul Deshmukh', '9988776655', 'rahul@gmail.com', 'Kolhapur');
+
+
+/* ———————————————————————————— */
+
+
+
+INSERT INTO rooms (room_number, room_type, price_per_night, status, department_id) VALUES
+('101', 'Single', 2000.00, 'Available', 2),
+('102', 'Double', 3500.00, 'Occupied', 2),
+('201', 'Deluxe', 5000.00, 'Available', 2),
+('202', 'Suite', 8000.00, 'Maintenance', 4);
+
+
+/* ————————————————————————————*/
+
+
+INSERT INTO food_category (category_name) VALUES
+('Veg'),
+('Non-Veg'),
+('Drinks'),
+('Dessert');
+
+
+
+/* ———————————————————————————*/
+
+INSERT INTO food_menu (food_name, price, category_id) VALUES
+('Paneer Butter Masala', 250.00, 1),
+('Veg Biryani', 220.00, 1),
+('Chicken Biryani', 320.00, 2),
+('Butter Chicken', 350.00, 2),
+('Cold Coffee', 120.00, 3),
+('Gulab Jamun', 90.00, 4);
+
+
+
+/*———————————————————————————*/
+
+
+INSERT INTO food_orders (customer_id, food_id, quantity, total_price) VALUES
+(1, 1, 2, 500.00),
+(1, 5, 1, 120.00),
+(2, 3, 1, 320.00),
+(2, 6, 2, 180.00),
+(3, 2, 1, 220.00);
+
+
+/* ———————————————————————————*/
+
+
+
+INSERT INTO room_booking (customer_id, room_id, check_in, check_out) VALUES
+(1, 2, '2025-01-10', '2025-01-12'),
+(2, 3, '2025-01-15', '2025-01-18'),
+(3, 1, '2025-01-20', '2025-01-21');
+
+
+
+/* ————————————————————————————*/
+
+
+select * from rooms;
+select * from food_menu;
+select * from food_category;
+select * from room_booking;
+select * from departments;
+select * from customers;
+select * from food_orders;
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

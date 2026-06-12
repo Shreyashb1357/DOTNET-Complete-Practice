@@ -1,0 +1,8 @@
+Hello world
+
+Each of these methods enable the developer to read the contents of a file and load into memory. The
+ReadAllText method will enable the developer to cache the entire file in memory via a single
+operation. Whereas the ReadAllLines method will read line-by-line into an array.
+Writing Data to Files : data is written to a file. By default, all existing contents are removed
+from the file, and new content is written.
+Also Certified from IIT KharagpurAlso Certified from IIT Kharagpur

@@ -1,0 +1,137 @@
+@* @model IEnumerable<DemoApp.Employee.Model.EmpDetail>
+<html>
+    <head>Welcome to company</head>
+    <body>
+        <h1>Welcome Employee</h1>
+        <h2>Register Employee</h2>
+
+        <table border ="1">
+            <tr>
+                <th>Emp No</th>
+                <th>Emp Name</th>
+                <th>Hire Date</th>
+                <th>Salary</th>
+                <th>Commission</th>
+            </tr>
+            @foreach(var a in Model)
+            {
+                <tr>
+                    <td>@a.Empno</td>
+                    <td>@a.Name</td>
+                    <td>@a.Hiredate</td>
+                    <td>@a.Sal</td>
+                    <td>@a.comm</td>
+                </tr>
+            }
+
+        </table>
+        
+    </body>
+</html>
+ *@
+
+
+@model IEnumerable<DemoApp.Employee.Model.EmpDetail>
+
+@{
+    ViewData["Title"] = "Employee List";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            max-width: 900px;
+            margin: 0 auto;
+            overflow-x: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e2e6ea;
+            transition: background-color 0.3s;
+        }
+
+        /* Responsive for small screens */
+        @@media (max-width: 600px) {
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome Employee</h1>
+    <h2>Registered Employees</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Emp No</th>
+                    <th>Emp Name</th>
+                    <th>Hire Date</th>
+                    <th>Salary</th>
+                    <th>Commission</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var emp in Model)
+                {
+                    <tr>
+                        <td>@emp.Empno</td>
+                        <td>@emp.Name</td>
+                        <td>@emp.Hiredate.ToString("yyyy-MM-dd")</td>
+                        <td>@emp.Sal</td>
+                        <td>@emp.comm</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

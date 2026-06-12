@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Manager Login</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            width: 350px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #aaa;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h2>Manager Login</h2>
+
+        <label>Manager ID</label>
+        <input type="text" id="managerId" placeholder="Enter Manager ID">
+
+        <label>Password / OTP</label>
+        <input type="number" id="managerPass" placeholder="9820 or OTP">
+
+        <button onclick="requestOTP()">Send OTP</button>
+        <button onclick="verifyOTP()">Verify OTP</button>
+        <button onclick="fetchEmployees()">Get All Employees</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const restUri = "http://localhost:5190/api/manager";
+
+        class ManagerClient {
+
+            constructor() {
+                this.manager = { id: "", passcode: "", token: "" };
+                this.status = "";
+            }
+
+            // Step 1 → Send master passcode to trigger OTP email
+            async requestOtp() {
+                let response = await fetch(`${restUri}/signin?id=${this.manager.id}&passcode=${this.manager.passcode}`);
+                if (response.ok) {
+                    this.status = "OTP sent to your email!";
+                } else {
+                    this.status = "Invalid manager credentials!";
+                }
+                document.getElementById("result").innerText = this.status;
+            }
+
+            // Step 2 → Verify OTP and get JWT token
+            async verifyOtp() {
+                let response = await fetch(`${restUri}/signin?id=${this.manager.id}&passcode=${this.manager.passcode}`);
+
+                if (response.ok) {
+                    this.manager.token = await response.text();
+                    this.status = "Login successful! JWT Token generated.";
+                } else {
+                    this.status = "Incorrect OTP!";
+                }
+                document.getElementById("result").innerText = this.status;
+            }
+
+            // Secured API call → Get all employees
+            async getAllEmployees() {
+                let request = {
+                    method: "get",
+                    headers: {
+                        "Authorization": "Bearer " + this.manager.token
+                    }
+                };
+
+                let response = await fetch("http://localhost:5190/api/emp", request);
+
+                if (response.ok) {
+                    let data = await response.json();
+                    this.status = JSON.stringify(data, null, 2);
+                } else {
+                    this.status = "Unauthorized! Please login again.";
+                }
+
+                document.getElementById("result").innerText = this.status;
+            }
+        }
+
+        const client = new ManagerClient();
+    
+
+        // Button functions
+        function requestOTP() {
+            client.manager.id = document.getElementById("managerId").value;
+            client.manager.passcode = document.getElementById("managerPass").value;
+            client.requestOtp();
+        }
+
+        function verifyOTP() {
+            client.manager.id = document.getElementById("managerId").value;
+            client.manager.passcode = document.getElementById("managerPass").value;
+            client.verifyOtp();
+        }
+
+        function fetchEmployees() {
+            client.getAllEmployees();
+        }
+    </script>
+
+</body>
+</html>

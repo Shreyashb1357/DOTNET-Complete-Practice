@@ -1,0 +1,189 @@
+syntax = "proto3";
+package sales;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+
+message UserIdRequest {
+  string userId = 1;
+}
+
+
+
+message UserMsg {
+  string userId = 1;
+  string username = 2;
+  string displayName = 3;
+  string profileImageUrl = 4;
+  string statusMessage = 5;
+  bool isOnline = 6;
+  google.protobuf.Timestamp lastSeen = 7;
+  string theme = 8;
+}
+
+message GetAllUsersResponse {
+  repeated UserMsg users = 1;
+}
+
+message OnlineStatusRequest {
+  string userId = 1;
+  bool isOnline = 2;
+}
+
+message OnlineStatusResponse {
+  bool success = 1;
+}
+
+message LastSeenRequest {
+  string userId = 1;
+  google.protobuf.Timestamp lastSeen = 2;
+}
+
+message LastSeenResponse {
+  bool success = 1;
+}
+
+message UpdateProfileRequest {
+  string userId = 1;
+  string displayName = 2;
+  string statusMessage = 3;
+  string theme = 4;
+}
+
+message UpdateProfileResponse {
+  UserMsg user = 1;
+}
+
+message UpdateProfileImageRequest {
+  string userId = 1;
+  string imageUrl = 2;
+}
+
+message UpdateProfileImageResponse {
+  UserMsg user = 1;
+}
+
+
+message ChatRoomMsg {
+  string chatRoomId = 1;
+  string user1Id = 2;
+  string user2Id = 3;
+  google.protobuf.Timestamp createdAt = 4;
+}
+
+message ChatRoomRequest {
+  string user1Id = 1;
+  string user2Id = 2;
+}
+
+message ChatRoomResponse {
+  ChatRoomMsg chatRoom = 1;
+}
+
+message MessageMsg {
+  string messageId = 1;
+  string chatRoomId = 2;
+  string senderId = 3;
+  string messageText = 4;
+  string messageType = 5; // text / image / file / audio
+  string fileUrl = 6;
+  google.protobuf.Timestamp sentAt = 7;
+  bool isRead = 8;
+  google.protobuf.Timestamp readAt = 9;
+}
+
+message SendMessageRequest {
+  string chatRoomId = 1;
+  string senderId = 2;
+  string messageText = 3;
+  string fileUrl = 4;
+}
+
+message SendMessageResponse {
+  MessageMsg message = 1;
+}
+
+message GetMessagesRequest {
+  string chatRoomId = 1;
+}
+
+message GetMessagesResponse {
+  repeated MessageMsg messages = 1;
+}
+
+message MarkAsReadRequest {
+  repeated string messageIds = 1;
+}
+
+message MarkAsReadResponse {
+  bool success = 1;
+}
+
+
+message GroupMsg {
+  string groupId = 1;
+  string name = 2;
+  string createdByUserId = 3;
+  google.protobuf.Timestamp createdAt = 4;
+}
+
+message CreateGroupRequest {
+  string name = 1;
+  repeated string userIds = 2;
+}
+
+message CreateGroupResponse {
+  string groupId = 1;
+}
+
+message GroupMessageMsg {
+  string messageId = 1;
+  string groupId = 2;
+  string senderId = 3;
+  string messageText = 4;
+  string messageType = 5;
+  string fileUrl = 6;
+  google.protobuf.Timestamp sentAt = 7;
+}
+
+message SendGroupMessageRequest {
+  string groupId = 1;
+  string senderId = 2;
+  string messageText = 3;
+  string fileUrl = 4;
+}
+
+message SendGroupMessageResponse {
+  GroupMessageMsg message = 1;
+}
+
+message AddGroupMemberRequest {
+  string groupId = 1;
+  string userId = 2;
+}
+
+message AddGroupMemberResponse {
+  bool success = 1;
+}
+
+
+service UserService {
+  rpc GetUserById(UserIdRequest) returns (UserMsg);
+  rpc GetAllUsers(google.protobuf.Empty) returns (GetAllUsersResponse);
+  rpc SetOnlineStatus(OnlineStatusRequest) returns (OnlineStatusResponse);
+  rpc SetLastSeen(LastSeenRequest) returns (LastSeenResponse);
+  rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse);
+  rpc UpdateProfileImage(UpdateProfileImageRequest) returns (UpdateProfileImageResponse);
+}
+
+service ChatService {
+  rpc CreateChatRoom(ChatRoomRequest) returns (ChatRoomResponse);
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  rpc GetMessages(GetMessagesRequest) returns (GetMessagesResponse);
+  rpc MarkAsRead(MarkAsReadRequest) returns (MarkAsReadResponse);
+
+  rpc CreateGroup(CreateGroupRequest) returns (CreateGroupResponse);
+  rpc SendGroupMessage(SendGroupMessageRequest) returns (SendGroupMessageResponse);
+  rpc AddGroupMember(AddGroupMemberRequest) returns (AddGroupMemberResponse);
+}

@@ -1,0 +1,173 @@
+@* <html>
+    <head>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <form method="post">
+            <p>
+                <b>Employee Number: </b>
+                <input type="number" name="empNo"/>
+            </p>
+            <p>
+                <b>Employee Name: </b>
+                <input type="text" name="empName"/>
+            </p>
+            <p>
+                <b>Employee Hire Date: </b>
+                <input type="date" name="hireDate"/>
+            </p>
+            <p>
+                <b>Employee Salary: </b>
+                <input type="number" name="empSal"/>
+            </p>
+            <p>
+                <b>Employee Commission: </b>
+                <input type="number" name="empComm"/>
+            </p>
+            <input type="submit" value="Apply" />
+        </form>
+        <p>
+            <a href="/Home/Index">Employee List</a>
+        </p>
+    </body>
+</html>
+ *@
+
+@{
+    ViewData["Title"] = "Add Employee";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* Container styling */
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: #f7f7f7;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: Arial, sans-serif;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        /* Label and input styling */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Submit button */
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Link styling */
+        .link-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Keyframes animation */
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @@media (max-width: 600px) {
+            .form-container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Add Employee</h2>
+        <form method="post">
+            <label for="empNo">Employee Number:</label>
+            <input type="number" id="empNo" name="empNo" required />
+
+            <label for="empName">Employee Name:</label>
+            <input type="text" id="empName" name="empName" required />
+
+            <label for="hireDate">Hire Date:</label>
+            <input type="date" id="hireDate" name="hireDate" required />
+
+            <label for="empSal">Salary:</label>
+            <input type="number" id="empSal" name="empSal" required />
+
+            <label for="empComm">Commission:</label>
+            <input type="number" id="empComm" name="empComm" required />
+
+            <button type="submit" name="actionType" value="Add">Add Employee</button>
+        </form>
+        <hr style="border: 15; height: 10px; background-color: black; margin: 20px 0;">
+        <b><h2>Remove Employee</h2></b>
+        <form method="post">
+            <label for="empNo">Employee Number To Remove That Stupid Guy :</label>
+            <input type="number" id="empNo" name="empNo"/>
+            <button type="submit" name="actionType" value="Remove">Remove Employee</button>
+        </form>
+
+        <div class="link-container">
+            <a href="/Home/Index">View Employee List</a>
+        </div>
+    </div>
+</body>
+</html>

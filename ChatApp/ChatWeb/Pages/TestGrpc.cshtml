@@ -1,0 +1,18 @@
+﻿@page
+@model MyApp.Namespace.TestGrpcModel
+
+<h2>gRPC Connection Test</h2>
+
+@if (!Model.Users.Any())
+{
+    <p>No users found.</p>
+}
+else
+{
+    <ul>
+        @foreach (var u in Model.Users)
+        {
+            <li>@u.UserId — @u.Username (@u.DisplayName)</li>
+        }
+    </ul>
+}

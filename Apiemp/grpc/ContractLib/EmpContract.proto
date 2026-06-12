@@ -1,0 +1,39 @@
+syntax = "proto3";
+package emp;
+import "google/protobuf/empty.proto";
+
+
+service empManager {
+    rpc AddEmployee(EmpDetail) returns(EmpStatus);
+    rpc FetchEmployee(google.protobuf.Empty) returns(stream AllEmployee);
+    rpc GetOneEmp(EmpOne) returns(SingleEmployee);
+}
+
+message EmpDetail {
+    int32 EmpId = 1;
+    string EmpName = 2;
+    int32 age = 3;
+    double salary = 4;
+}
+
+message EmpStatus {
+    string confirmation_msg = 1;
+}
+
+message AllEmployee {
+    int32 EmpId = 1;
+    string EmpName = 2;
+    int32 age = 3;
+    double salary = 4;
+}
+
+message EmpOne {
+    int32 EmpId = 1;
+}
+
+message SingleEmployee {
+    int32 EmpId = 1;
+    string EmpName = 2;
+    int32 age = 3;
+    double salary = 4;
+}
